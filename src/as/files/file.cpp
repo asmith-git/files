@@ -82,7 +82,22 @@ namespace as {
 	
 	bool file::destroy() throw() {
 		if(! exists()) return false;
-		//! \todo Implement
+		if(mFlags & FILE) {
+#if ASMITH_OS == ASMITH_OS_WINDOWS
+			if(! DeleteFileA(mPath)) return false;
+			refresh();
+#endif
+		}else if (mFlags & DIRECTORY) {
+#if ASMITH_OS == ASMITH_OS_WINDOWS
+			// Delete children
+			auto children = get_children();
+			for(file& i : children) if(! i.destroy()) return false;
+
+			// Delete directory
+			if(! RemoveDirectoryA(mPath)) return false;
+			refresh();
+#endif
+		}
 		return false;
 	}
 	
