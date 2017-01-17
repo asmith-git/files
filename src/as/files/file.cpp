@@ -11,15 +11,15 @@
 #endif
 
 #if defined(__APPLE__) || defined(__MACH__)
-	#define ASMITH_OS ASMITH_OS_MAC
+	//#define ASMITH_OS ASMITH_OS_MAC
 #endif
 
 #if defined(__linux__)
-	#define ASMITH_OS ASMITH_OS_LINUX
+	//#define ASMITH_OS ASMITH_OS_LINUX
 #endif
 
 #if defined(__FreeBSD__)
-	#define ASMITH_OS ASMITH_OS_BSD
+	//#define ASMITH_OS ASMITH_OS_BSD
 #endif
 
 #ifndef ASMITH_OS
