@@ -1,5 +1,31 @@
 #include "as/files/file.hpp"
 
+#define ASMITH_OS_ERROR 0
+#define ASMITH_OS_WINDOWS 1
+#define ASMITH_OS_LINUX 2
+#define ASMITH_OS_MAC 3
+#define ASMITH_OS_BSD 4
+
+#if defined(_WIN32) || defined(_WIN64)
+	#define ASMITH_OS ASMITH_OS_WINDOWS
+#endif
+
+#if defined(__APPLE__) || defined(__MACH__)
+	#define ASMITH_OS ASMITH_OS_MAC
+#endif
+
+#if defined(__linux__)
+	#define ASMITH_OS ASMITH_OS_LINUX
+#endif
+
+#if defined(__FreeBSD__)
+	#define ASMITH_OS ASMITH_OS_BSD
+#endif
+
+#ifndef ASMITH_OS
+	#error as::file : This OS is not currently supported
+#endif
+
 namespace as {
 	// file
 	
