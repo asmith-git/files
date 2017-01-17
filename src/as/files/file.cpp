@@ -50,7 +50,16 @@ namespace as {
 	}
 	
 	void file::refresh() throw() {
-		//! \todo Implement
+#if ASMITH_OS == ASMITH_OS_WINDOWS
+		mFlags = 0;
+		const DWORD flags = GetFileAttributesA(mPath);
+		if(flags == INVALID_FILE_ATTRIBUTES) return;
+
+		mFlags |= flags & FILE_ATTRIBUTE_READONLY ? READABLE : (WRITABLE | READABLE);
+		mFlags |= flags & FILE_ATTRIBUTE_HIDDEN ? HIDDEN : 0;
+		mFlags |= flags & FILE_ATTRIBUTE_DIRECTORY ? DIRECTORY : FILE;
+		mFlags |= EXISTS;
+#endif
 	}
 	
 	bool file::create(uint8_t aFlags) throw() {
