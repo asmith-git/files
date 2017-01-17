@@ -129,8 +129,18 @@ namespace as {
 	
 	bool file::move(const char* aPath) throw() {
 		if(! exists()) return false;
-		//! \todo Implement
-		return false;
+		if (mFlags & FILE) {
+#if ASMITH_OS == ASMITH_OS_WINDOWS
+			if(! MoveFileA(mPath, aPath)) return false;
+			refresh();
+#endif
+		}else if(mFlags & DIRECTORY) {
+#if ASMITH_OS == ASMITH_OS_WINDOWS
+			if(! MoveFileA(mPath, aPath)) return false;
+			refresh();
+#endif
+		}
+		return exists();
 	}
 	
 	bool file::exists() const throw() {
