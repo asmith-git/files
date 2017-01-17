@@ -87,7 +87,7 @@ namespace as {
 			if(! DeleteFileA(mPath)) return false;
 			refresh();
 #endif
-		}else if (mFlags & DIRECTORY) {
+		}else if(mFlags & DIRECTORY) {
 #if ASMITH_OS == ASMITH_OS_WINDOWS
 			// Delete children
 			auto children = get_children();
@@ -115,8 +115,16 @@ namespace as {
 	
 	file file::copy(const char* aPath) const throw() {
 		if(! exists()) return false;
-		//! \todo Implement
-		return false;
+		if (mFlags & FILE) {
+#if ASMITH_OS == ASMITH_OS_WINDOWS
+			CopyFileA(mPath, aPath, FALSE);
+#endif
+		}else if(mFlags & DIRECTORY) {
+#if ASMITH_OS == ASMITH_OS_WINDOWS
+			CopyFileA(mPath, aPath, FALSE);
+#endif
+		}
+		return file(aPath);
 	}
 	
 	bool file::move(const char* aPath) throw() {
