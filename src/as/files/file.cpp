@@ -56,11 +56,24 @@ namespace as {
 	bool file::create(uint8_t aFlags) throw() {
 		if(exists()) return false;
 		if(aFlags & FILE) {
+#if ASMITH_OS == ASMITH_OS_WINDOWS
+			CreateFileA(
+				mPath, 
+				(aFlags & READABLE ? GENERIC_READ : 0) | (aFlags & WRITABLE ? GENERIC_WRITE : 0),
+				0, 
+				NULL, 
+				CREATE_ALWAYS,
+				(aFlags & HIDDEN ? FILE_ATTRIBUTE_HIDDEN : FILE_ATTRIBUTE_NORMAL),
+				NULL
+			);
+			refresh();
+			if(aFlags & HIDDEN) hide();
+#endif
 			//! \todo Implement
 		} else if (aFlags & DIRECTORY) {
 			//! \todo Implement
 		}
-		return false;
+		return exists();
 	}
 	
 	bool file::destroy() throw() {
