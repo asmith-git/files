@@ -9,7 +9,7 @@ namespace as {
 	{}
 	
 	file::file(const char* aPath) throw()  :
-		mPath(),
+		mPath(aPath),
 		mFlags(0)
 	{
 		refresh();
