@@ -68,9 +68,14 @@ namespace as {
 			) == INVALID_HANDLE_VALUE) return false;
 			refresh();
 #endif
-			//! \todo Implement
 		} else if (aFlags & DIRECTORY) {
-			//! \todo Implement
+#if ASMITH_OS == ASMITH_OS_WINDOWS
+			if(! CreateDirectoryA(
+				mPath,
+				NULL
+			)) return false;
+			refresh();
+#endif
 		}
 		return exists();
 	}
