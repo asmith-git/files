@@ -57,7 +57,7 @@ namespace as {
 		if(exists()) return false;
 		if(aFlags & FILE) {
 #if ASMITH_OS == ASMITH_OS_WINDOWS
-			CreateFileA(
+			if(CreateFileA(
 				mPath, 
 				(aFlags & READABLE ? GENERIC_READ : 0) | (aFlags & WRITABLE ? GENERIC_WRITE : 0),
 				0, 
@@ -65,7 +65,7 @@ namespace as {
 				CREATE_ALWAYS,
 				(aFlags & HIDDEN ? FILE_ATTRIBUTE_HIDDEN : FILE_ATTRIBUTE_NORMAL),
 				NULL
-			);
+			) == INVALID_HANDLE_VALUE) return false;
 			refresh();
 #endif
 			//! \todo Implement
