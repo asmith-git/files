@@ -35,16 +35,16 @@ namespace as {
 	{}
 	
 	file::file(const char* aPath) throw()  :
-		mPath(aPath),
+		mPath(),
 		mFlags(0)
 	{
+		strcpy(mPath, aPath);
 		refresh();
 	}
 	
-	file::~file() throw() :
-		mPath(),
-		mFlags(0)
-	{}
+	file::~file() throw() {
+
+	}
 	
 	void file::refresh() throw() {
 		//! \todo Implement
@@ -87,7 +87,7 @@ namespace as {
 	}
 	
 	bool file::exists() const throw() {
-		return mFlags & EXITS;
+		return mFlags & EXISTS;
 	}
 	
 	bool file::is_file() const throw() {
@@ -132,7 +132,7 @@ namespace as {
 		return mPath;
 	}
 	
-	operator file::bool() const throw() {
+	file::operator bool() const throw() {
 		return exists();
 	}
 	

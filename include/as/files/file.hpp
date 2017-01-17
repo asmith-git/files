@@ -39,6 +39,7 @@ namespace as {
 			READABLE		= 1 << 2,				//!< Identifies file is readable.
 			WRITABLE		= 1 << 3,				//!< Identifies file is writable.
 			HIDDEN			= 1 << 4,				//!< Identifies object is hidden.
+			EXISTS			= 1 << 5,				//!< Identifies object is exists.
 			READ_WRITEABLE	= READABLE | WRITABLE,	//!< Identifies file is readable and writable.
 		};
 		
