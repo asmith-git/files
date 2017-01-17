@@ -204,8 +204,26 @@ namespace as {
 	}
 	
 	std::vector<file> file::get_children() const throw() {
-		//! \todo Implement
-		return std::vector<file>();
+		if (!(mFlags & (EXISTS | DIRECTORY))) return std::vector<file>();
+		std::vector<file> children;
+#if ASMITH_OS == ASMITH_OS_WINDOWS
+		WIN32_FIND_DATAA ffd;
+		CHAR szDir[MAX_PATH];
+		HANDLE handle = INVALID_HANDLE_VALUE;
+
+		//StringCchCopyA(szDir, MAX_PATH, mPath);
+		//StringCchCatA(szDir, MAX_PATH, TEXT("\\*"));
+
+		handle = FindFirstFileA(szDir, &ffd);
+		if(handle != INVALID_HANDLE_VALUE) {
+			do {
+				children.push_back(file(ffd.cFileName));
+			} while (FindNextFileA(handle, &ffd) != 0);
+
+		}
+		FindClose(handle);
+#endif
+		return children;
 	}
 	
 	const char* file::get_name() const throw() {
