@@ -8,6 +8,9 @@
 
 #if defined(_WIN32) || defined(_WIN64)
 	#define ASMITH_OS ASMITH_OS_WINDOWS
+
+	#define WIN32_LEAN_AND_MEAN
+	#include <Windows.h>
 #endif
 
 #if defined(__APPLE__) || defined(__MACH__)
@@ -52,7 +55,11 @@ namespace as {
 	
 	bool file::create(uint8_t aFlags) throw() {
 		if(exists()) return false;
-		//! \todo Implement
+		if(aFlags & FILE) {
+			//! \todo Implement
+		} else if (aFlags & DIRECTORY) {
+			//! \todo Implement
+		}
 		return false;
 	}
 	
