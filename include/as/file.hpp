@@ -21,6 +21,13 @@
 namespace as {
 	class file {
 	public:
+		enum {
+			MAX_PATH_LENGTH = 126
+		};
+	private:
+		char mPath[MAX_PATH_LENGTH + 1];
+		uint8_t mFlags;
+	public:
 		enum : uint8_t {
 			FILE			= 1 << 0,
 			DIRECTORY		= 1 << 1,
@@ -34,7 +41,7 @@ namespace as {
 		file(const char*) throw();
 		~file() throw();
 		
-		bool create() throw();
+		bool create(uint8_t) throw();
 		bool destroy() throw();
 		bool hide() throw();
 		bool show() throw();
