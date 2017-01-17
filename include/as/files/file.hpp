@@ -60,6 +60,11 @@ namespace as {
 		~file() throw();
 		
 		/*!
+			\brief Update reference to file or directory with any changes made outside of this object.
+		*/
+		void refresh() throw();
+		
+		/*!
 			\brief Create the file or directory.
 			\detail Reqires one of FILE or DIRECTORY to be a parameter.
 			\param aFlags The properties of the file or directory.
