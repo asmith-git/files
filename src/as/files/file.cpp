@@ -176,8 +176,31 @@ namespace as {
 	}
 	
 	size_t file::size() const throw() {
-		//! \todo Implement
-		return mFlags & EXISTS ? 0 : 0;
+		if(!(mFlags & (EXISTS | FILE))) return 0;
+		size_t size = 0;
+#if ASMITH_OS == ASMITH_OS_WINDOWS
+		// Open file handle
+		const HANDLE handle = CreateFileA(
+			mPath,
+			GENERIC_READ,
+			0,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL
+		);
+
+		if(handle != INVALID_HANDLE_VALUE) {
+			// Get size
+			DWORD s = 0;
+			GetFileSize(handle, &s);
+			size = s;
+
+			// Close file handle
+			CloseHandle(handle);
+		}
+#endif
+		return size;
 	}
 	
 	std::vector<file> file::get_children() const throw() {
