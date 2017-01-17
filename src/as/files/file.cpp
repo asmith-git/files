@@ -67,7 +67,6 @@ namespace as {
 				NULL
 			);
 			refresh();
-			if(aFlags & HIDDEN) hide();
 #endif
 			//! \todo Implement
 		} else if (aFlags & DIRECTORY) {
