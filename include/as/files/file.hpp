@@ -40,6 +40,7 @@ namespace as {
 			WRITABLE		= 1 << 3,				//!< Identifies file is writable.
 			HIDDEN			= 1 << 4,				//!< Identifies object is hidden.
 			EXISTS			= 1 << 5,				//!< Identifies object is exists.
+			TEMPORARY		= 1 << 6,				//!< Identifies object is temporary
 			READ_WRITEABLE	= READABLE | WRITABLE,	//!< Identifies file is readable and writable.
 		};
 		
@@ -94,6 +95,11 @@ namespace as {
 			\return False if the file or directory cannot be made visible.
 		*/
 		bool show() throw();
+		
+		/*!
+			\brief The file will be delete when the program terminates.
+		*/
+		void make_temporary() throw();
 		
 		/*!
 			\brief Copy this file or directory.
@@ -166,6 +172,12 @@ namespace as {
 			\return True if the file is readable and not writable.
 		*/
 		bool is_write_only() const throw();
+
+		/*!
+			\brief Check if the file or directory is temporary.
+			\return True if the file or directory is temporary.
+		*/
+		bool is_temporary() const throw();
 		
 		/*!
 			\brief Return the size of the file.

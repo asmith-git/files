@@ -74,6 +74,7 @@ namespace as {
 		mFlags |= flags & FILE_ATTRIBUTE_HIDDEN ? HIDDEN : 0;
 		mFlags |= flags & FILE_ATTRIBUTE_DIRECTORY ? DIRECTORY : FILE;
 		mFlags |= EXISTS;
+		//! \todo Temporary
 #endif
 	}
 	
@@ -136,6 +137,10 @@ namespace as {
 		//! \todo Implement
 		return false;
 	}
+
+	void file::make_temporary() throw() {
+		//! \todo Implement
+	}
 	
 	file file::copy(const char* aPath) const throw() {
 		if(! exists()) return false;
@@ -197,6 +202,10 @@ namespace as {
 	
 	bool file::is_write_only() const throw() {
 		return (mFlags & WRITABLE) && ! (mFlags & READABLE);
+	}
+
+	bool file::is_temporary() const throw() {
+		return mFlags & TEMPORARY;
 	}
 	
 	size_t file::size() const throw() {
