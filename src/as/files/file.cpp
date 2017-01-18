@@ -14,6 +14,8 @@
 // limitations under the License.
 
 #include "as/files/file.hpp"
+#include <vector>
+#include <mutex>
 
 #define ASMITH_OS_ERROR 0
 #define ASMITH_OS_WINDOWS 1
@@ -45,6 +47,10 @@
 #endif
 
 namespace as {
+	std::vector<file> TEMPORARY_FILES;
+	std::mutex TEMPORARY_FILES_LOCK;
+	bool TEMP_FILES_INITIALISED = false;
+
 	// file
 	
 	file::file() throw() :
@@ -65,6 +71,7 @@ namespace as {
 	}
 	
 	void file::refresh() throw() {
+		// Check OS info
 #if ASMITH_OS == ASMITH_OS_WINDOWS
 		mFlags = 0;
 		const DWORD flags = GetFileAttributesA(mPath);
@@ -74,8 +81,16 @@ namespace as {
 		mFlags |= flags & FILE_ATTRIBUTE_HIDDEN ? HIDDEN : 0;
 		mFlags |= flags & FILE_ATTRIBUTE_DIRECTORY ? DIRECTORY : FILE;
 		mFlags |= EXISTS;
-		//! \todo Temporary
 #endif
+		// Check if the file has been set as temporary
+		if(TEMP_FILES_INITIALISED) {
+			TEMPORARY_FILES_LOCK.lock();
+			for (const file& i : TEMPORARY_FILES) if(strcmp(i.mPath, mPath) == 0) {
+				mFlags |= TEMPORARY;
+				break;
+			}
+			TEMPORARY_FILES_LOCK.unlock();
+		}
 	}
 	
 	bool file::create(uint8_t aFlags) throw() {
@@ -139,7 +154,24 @@ namespace as {
 	}
 
 	void file::make_temporary() throw() {
-		//! \todo Implement
+		if(! TEMP_FILES_INITIALISED) {
+			TEMP_FILES_INITIALISED = true;
+			std::atexit([]()->void{
+				TEMPORARY_FILES_LOCK.lock();
+				for(file& i : TEMPORARY_FILES) {
+					i.refresh();
+					i.destroy();
+				}
+				TEMPORARY_FILES.clear();
+				TEMPORARY_FILES_LOCK.unlock();
+			});
+		}
+
+		if(mFlags & TEMPORARY) return;
+		TEMPORARY_FILES_LOCK.lock();
+		TEMPORARY_FILES.push_back(*this);
+		TEMPORARY_FILES_LOCK.unlock();
+		mFlags |= TEMPORARY;
 	}
 	
 	file file::copy(const char* aPath) const throw() {
