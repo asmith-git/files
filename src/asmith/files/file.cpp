@@ -55,7 +55,7 @@ namespace asmith {
 	}
 
 	size_t file::size() const {
-		if(! exists()) return 0;
+		if(! exists()) throw std::runtime_error("asmith::file::size : File does not exist");
 		size_t size = 0;
 #ifdef _WIN32
 		// Open file handle
