@@ -13,6 +13,11 @@
 
 #include "asmith/files/file.hpp"
 
+#ifdef _WIN32
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+#endif
+
 namespace asmith {
 	// file
 	std::shared_ptr<file> file::get_reference(const char* aPath) {
@@ -48,7 +53,31 @@ namespace asmith {
 	}
 
 	size_t file::size() const {
-		return 0;
+		if(! exists()) return 0;
+		size_t size = 0;
+#ifdef _WIN32
+		// Open file handle
+		const HANDLE handle = CreateFileA(
+			mPath.c_str(),
+			GENERIC_READ,
+			0,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL
+		);
+
+		if(handle != INVALID_HANDLE_VALUE) {
+			// Get size
+			DWORD s = 0;
+			GetFileSize(handle, &s);
+			size = s;
+
+			// Close file handle
+			CloseHandle(handle);
+		}
+#endif
+		return size;
 	}
 
 	void file::hide() {
