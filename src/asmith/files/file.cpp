@@ -39,7 +39,9 @@ namespace asmith {
 
 	file::file(const char* aPath) :
 		filesystem_object(aPath)
-	{}
+	{
+		mFlags = get_flags();
+	}
 
 	file::~file() {
 		if(is_temporary() && exists()) {

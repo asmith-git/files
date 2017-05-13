@@ -39,7 +39,9 @@ namespace asmith {
 
 	directory::directory(const char* aPath) :
 		filesystem_object(aPath)
-	{}
+	{
+		mFlags = get_flags();
+	}
 
 	directory::~directory() {
 		if(is_temporary() && exists()) {
