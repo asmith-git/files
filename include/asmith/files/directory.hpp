@@ -38,8 +38,8 @@ namespace asmith {
 		void show() override;
 		void create(const uint32_t aFlags) override;
 		void destroy() override;
-		void move(const char* aPath) override;
-		void copy(const char* aPath) override;
+		std::shared_ptr<filesystem_object> move(const char* aPath) override;
+		std::shared_ptr<filesystem_object> copy(const char* aPath) override;
 		bool is_directory() const override;
 		bool is_file() const override;
 	};

@@ -65,12 +65,12 @@ namespace asmith {
 		
 	}
 
-	void directory::move(const char* aPath) {
-		
+	std::shared_ptr<filesystem_object> directory::move(const char* aPath) {
+		return nullptr;
 	}
 
-	void directory::copy(const char* aPath) {
-		
+	std::shared_ptr<filesystem_object> directory::copy(const char* aPath) {
+		return nullptr;
 	}
 
 	bool directory::is_directory() const {

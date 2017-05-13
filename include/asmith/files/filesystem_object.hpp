@@ -65,8 +65,8 @@ namespace asmith {
 		virtual void show() = 0;
 		virtual void create(const uint32_t aFlags) = 0;
 		virtual void destroy() = 0;
-		virtual void move(const char* aPath) = 0;
-		virtual void copy(const char* aPath) = 0;
+		virtual std::shared_ptr<filesystem_object> move(const char* aPath) = 0;
+		virtual std::shared_ptr<filesystem_object> copy(const char* aPath) = 0;
 		virtual bool is_file() const = 0;
 		virtual bool is_directory() const = 0;
 	};
