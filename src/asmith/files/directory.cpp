@@ -124,12 +124,12 @@ namespace asmith {
 
 	std::shared_ptr<filesystem_object> directory::move(const char* aPath) {
 		//! \todo Implement
-		return nullptr;
+		throw std::runtime_error("asmith::directory::move : Failed to move directory");
 	}
 
 	std::shared_ptr<filesystem_object> directory::copy(const char* aPath) {
 		//! \todo Implement
-		return nullptr;
+		throw std::runtime_error("asmith::directory::copy : Failed to copy directory");
 	}
 
 	bool directory::is_directory() const {
