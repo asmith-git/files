@@ -86,8 +86,13 @@ namespace asmith {
 	}
 
 	void directory::create(const uint32_t aFlags) {
-		//! \todo Implement
-		
+		if(exists()) throw std::runtime_error("asmith::directory::destroy : Directory already exists");
+		std::lock_guard<std::mutex> lock(mLock);
+#ifdef _WIN32
+		if(! CreateDirectoryA(mPath.c_str(), NULL)) throw std::runtime_error("asmith::directory::create : Failed to create directory");
+		mFlags = aFlags;
+#endif
+		throw std::runtime_error("asmith::directory::create : Failed to create directory");
 	}
 
 	void directory::destroy() {
@@ -99,7 +104,7 @@ namespace asmith {
 
 #ifdef _WIN32
 		if(! RemoveDirectoryA(mPath.c_str())) throw std::runtime_error("asmith::directory::destroy : Failed to destroy directory");
-		mFlags = get_flags();
+		mFlags = 0;
 		return;
 #endif
 		throw std::runtime_error("asmith::directory::destroy : Failed to destroy directory");

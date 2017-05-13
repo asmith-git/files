@@ -128,7 +128,7 @@ namespace asmith {
 		std::lock_guard<std::mutex> lock(mLock);
 #ifdef _WIN32
 		if(! DeleteFileA(mPath.c_str())) throw std::runtime_error("asmith::file::destroy : Failed to destroy file");
-		mFlags = get_flags();
+		mFlags = 0;
 		return;
 #endif
 		throw std::runtime_error("asmith::file::destroy : Failed to destroy file");
