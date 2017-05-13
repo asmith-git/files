@@ -98,16 +98,15 @@ namespace asmith {
 		std::lock_guard<std::mutex> lock(mLock);
 #ifdef _WIN32
 		if(CreateFileA(
-			mPath,
-			(aFlags & READABLE ? GENERIC_READ : 0) | (aFlags & WRITABLE ? GENERIC_WRITE : 0),
+			mPath.c_str(),
+			(aFlags & FILE_READ ? GENERIC_READ : 0) | (aFlags & FILE_WRITE ? GENERIC_WRITE : 0),
 			0,
 			NULL,
 			CREATE_ALWAYS,
-			(aFlags & HIDDEN ? FILE_ATTRIBUTE_HIDDEN : FILE_ATTRIBUTE_NORMAL),
+			(aFlags & FILE_HIDDEN ? FILE_ATTRIBUTE_HIDDEN : FILE_ATTRIBUTE_NORMAL),
 			NULL
-		) == INVALID_HANDLE_VALUE) return false;
+		) == INVALID_HANDLE_VALUE) throw std::runtime_error("asmith::file::create : Failed to create file");
 		mFlags = aFlags;
-		if(aFlags & FILE_TEMPORARY) 
 #endif
 		throw std::runtime_error("asmith::file::create : Failed to create file");
 	}
