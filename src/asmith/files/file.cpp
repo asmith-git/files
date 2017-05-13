@@ -99,13 +99,24 @@ namespace asmith {
 	}
 
 	std::shared_ptr<filesystem_object> file::move(const char* aPath) {
-		//! \todo Implement
-		return nullptr;
+		if(! exists()) throw std::runtime_error("asmith::file::move : File does not exist");
+		std::lock_guard<std::mutex> lock(mLock);
+#ifdef _WIN32
+		if(! MoveFileA(mPath.c_str(), aPath)) throw std::runtime_error("asmith::file::move : Failed to move file");
+		mFlags = get_flags();
+		return get_reference(aPath);
+#endif
+		throw std::runtime_error("asmith::file::move : Failed to move file");
 	}
 
 	std::shared_ptr<filesystem_object> file::copy(const char* aPath) {
-		//! \todo Implement
-		return nullptr;
+		if(! exists()) throw std::runtime_error("asmith::file::copy : File does not exist");
+		std::lock_guard<std::mutex> lock(mLock);
+#ifdef _WIN32
+		if(! CopyFileA(mPath.c_str(), aPath, FALSE)) throw std::runtime_error("asmith::file::copy : Failed to copy file");
+		return get_reference(aPath);
+#endif
+		throw std::runtime_error("asmith::file::copy : Failed to copy file");
 	}
 
 	bool file::is_file() const {
