@@ -48,8 +48,17 @@ namespace asmith {
 	}
 
 	uint32_t file::get_flags() const {
-		//! \todo Implement
-		return 0;
+		uint32_t flags = 0;
+		if(is_temporary()) flags |= FILE_TEMPORARY;
+#ifdef _WIN32
+		const DWORD wflags = GetFileAttributesA(mPath.c_str());
+		if(wflags == INVALID_FILE_ATTRIBUTES) return flags;
+		if(wflags & FILE_ATTRIBUTE_DIRECTORY) throw std::runtime_error("asmith::file::get_flags : Object is a directory not a file");
+		flags |= wflags & FILE_ATTRIBUTE_READONLY ? FILE_READ : (FILE_WRITE | FILE_READ);
+		flags |= wflags & FILE_ATTRIBUTE_HIDDEN ? FILE_HIDDEN : 0;
+		flags |= FILE_EXISTS;
+#endif
+		return flags;
 	}
 
 	const char* file::get_extension() const {
