@@ -16,6 +16,7 @@
 
 #include <string>
 #include <mutex>
+#include <memory>
 
 namespace asmith {
 	enum {
@@ -26,26 +27,26 @@ namespace asmith {
 		FILE_TEMPORARY	= 1 << 3
 	};
 		
-	class filesystem_entity : public std::enable_shared_from_this<filesystem_entity> {
+	class filesystem_object : public std::enable_shared_from_this<filesystem_object> {
 	private:
-		filesystem_entity(filesystem_entity&&) = delete;
-		filesystem_entity(const filesystem_entity&) = delete;
-		filesystem_entity& operator=(filesystem_entity&&) = delete;
-		filesystem_entity& operator=(const filesystem_entity&) = delete;
+		filesystem_object(filesystem_object&&) = delete;
+		filesystem_object(const filesystem_object&) = delete;
+		filesystem_object& operator=(filesystem_object&&) = delete;
+		filesystem_object& operator=(const filesystem_object&) = delete;
 	protected:
 		std::string mPath;
 		mutable std::mutex mLock;
 		uint32_t mFlags;
 	protected:
 		static const char* get_temporary_directory() throw();
-		static std::shared_ptr<filesystem_entity> get_entity_reference(const char*);
+		static std::shared_ptr<filesystem_object> get_entity_reference(const char*);
 		
-		filesystem_entity();
-		filesystem_entity(const char* aPath);
+		filesystem_object();
+		filesystem_object(const char* aPath);
 		
 		virtual uint32_t get_flags() const = 0;
 	public:
-		virtual ~filesystem_entity();
+		virtual ~filesystem_object();
 		
 		operator bool() const;
 		

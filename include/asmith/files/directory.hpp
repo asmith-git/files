@@ -17,21 +17,21 @@
 #include "filesystem_object.hpp"
 
 namespace asmith {
-	class directory : public filesystem_entity {
+	class directory : public filesystem_object {
 	protected:
 		directory();
 		directory(const char* aPath);
 		
-		// Inherited from filesystem_entity
+		// Inherited from filesystem_object
 		uint32_t get_flags() const override;
 	public:
 		static std::shared_ptr<directory> get_reference(const char*);
 		static std::shared_ptr<directory> create_temporary(const char*);
 		~directory();
 		
-		std::vector<std::shared_ptr<filesystem_entity>> get_children() const ;
+		std::vector<std::shared_ptr<filesystem_object>> get_children() const ;
 		
-		// Inherited from filesystem_entity
+		// Inherited from filesystem_object
 		
 		void hide() override;
 		void show() override;

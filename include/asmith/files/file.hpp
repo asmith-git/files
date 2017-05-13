@@ -17,12 +17,12 @@
 #include "filesystem_object.hpp"
 
 namespace asmith {
-	class file : public filesystem_entity {
+	class file : public filesystem_object {
 	protected:
 		file();
 		file(const char* aPath);
 		
-		// Inherited from filesystem_entity
+		// Inherited from filesystem_object
 		uint32_t get_flags() const override;
 	public:
 		static std::shared_ptr<file> get_reference(const char*);
@@ -34,7 +34,7 @@ namespace asmith {
 		void set_extension(const char* ) const;
 		size_t size() const;
 		
-		// Inherited from filesystem_entity
+		// Inherited from filesystem_object
 		
 		void hide() override;
 		void show() override;
