@@ -31,7 +31,6 @@ namespace asmith {
 		~file();
 		
 		const char* get_extension() const;
-		void set_extension(const char* ) const;
 		size_t size() const;
 		
 		// Inherited from filesystem_object
@@ -40,7 +39,6 @@ namespace asmith {
 		void show() override;
 		void create(const uint32_t aFlags) override;
 		void destroy() override;
-		bool exists() const override;
 		void move(const char* aPath) override;
 		void copy(const char* aPath) override;
 		bool is_file() const override;

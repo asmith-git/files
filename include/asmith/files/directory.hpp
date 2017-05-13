@@ -14,6 +14,7 @@
 #ifndef ASMITH_FILES_DIRECTORY_HPP
 #define ASMITH_FILES_DIRECTORY_HPP
 
+#include<vector>
 #include "filesystem_object.hpp"
 
 namespace asmith {
