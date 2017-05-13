@@ -34,7 +34,7 @@ namespace asmith {
 		filesystem_object& operator=(filesystem_object&&) = delete;
 		filesystem_object& operator=(const filesystem_object&) = delete;
 	protected:
-		std::string mPath;
+		const std::string mPath;
 		mutable std::mutex mLock;
 		uint32_t mFlags;
 	protected:
