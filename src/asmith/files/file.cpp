@@ -62,8 +62,9 @@ namespace asmith {
 	}
 
 	const char* file::get_extension() const {
-		//! \todo Implement
-		return nullptr;
+		const size_t pos = mPath.find_last_of('.');
+		if(pos == std::string::npos) return "";
+		return mPath.c_str() + pos + 1;
 	}
 
 	size_t file::size() const {

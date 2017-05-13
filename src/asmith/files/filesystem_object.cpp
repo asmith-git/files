@@ -62,7 +62,7 @@ namespace asmith {
 		size_t pos = mPath.find_last_of('/');
 		if(pos == std::string::npos) return mPath.c_str();
 		//! \todo Handle directory names
-		return mPath.c_str() + pos;
+		return mPath.c_str() + pos + 1;
 	}
 	
 	const char* filesystem_object::get_path() const {
