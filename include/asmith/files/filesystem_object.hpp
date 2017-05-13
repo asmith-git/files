@@ -52,6 +52,7 @@ namespace asmith {
 		
 		const char* get_name() const;
 		const char* get_path() const;
+		std::shared_ptr<filesystem_object> get_parent() const;
 		
 		bool exists() const;
 		bool is_hidden() const;

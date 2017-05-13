@@ -68,6 +68,13 @@ namespace asmith {
 	const char* filesystem_object::get_path() const {
 		return mPath.c_str();
 	}
+
+	std::shared_ptr<filesystem_object> filesystem_object::get_parent() const {
+		size_t pos = mPath.find_last_of('/');
+		if (pos == std::string::npos) throw("asmith::filesystem_object::get_parent : Directory is root");
+		//! \todo Handle directory names
+		return directory::get_reference(mPath.substr(0, pos).c_str());
+	}
 	
 	bool filesystem_object::exists() const {
 		return mFlags & FILE_EXISTS;
