@@ -39,6 +39,7 @@ namespace asmith {
 		uint32_t mFlags;
 	protected:
 		static const char* get_temporary_directory() throw();
+		static std::shared_ptr<filesystem_object> get_object_reference(const std::string&, const bool);
 		
 		filesystem_object();
 		filesystem_object(const char* aPath);

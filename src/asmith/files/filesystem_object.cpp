@@ -67,30 +67,30 @@ namespace asmith {
 	}
 	
 	bool filesystem_object::exists() const {
-		return false;
+		return mFlags & FILE_EXISTS;
 	}
 	
 	bool filesystem_object::is_hidden() const {
-		return false;
+		return mFlags & FILE_HIDDEN;;
 	}
 	
 	bool filesystem_object::is_temporary() const {
-		return false;
+		return mFlags & FILE_TEMPORARY;
 	}
 	
 	bool filesystem_object::is_readable() const {
-		return false;
+		return mFlags & FILE_READ;
 	}
 	
 	bool filesystem_object::is_writeable() const {
-		return false;
+		return mFlags & FILE_WRITE;
 	}
 	
 	bool filesystem_object::is_read_only() const {
-		return false;
+		return is_readable() && ! is_writeable();
 	}
 	
 	bool filesystem_object::is_write_only() const {
-		return false;
+		return is_writeable() && ! is_readable();;
 	}
 }
