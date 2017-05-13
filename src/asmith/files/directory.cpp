@@ -48,8 +48,17 @@ namespace asmith {
 	}
 
 	uint32_t directory::get_flags() const {
-		//! \todo Implement
-		return 0;
+		uint32_t flags = 0;
+		if(is_temporary()) flags |= FILE_TEMPORARY;
+#ifdef _WIN32
+		const DWORD wflags = GetFileAttributesA(mPath.c_str());
+		if(wflags == INVALID_FILE_ATTRIBUTES) return flags;
+		if(!(wflags & FILE_ATTRIBUTE_DIRECTORY)) throw std::runtime_error("asmith::directory::get_flags : Object is a file not a directory");
+		flags |= wflags & FILE_ATTRIBUTE_READONLY ? FILE_READ : (FILE_WRITE | FILE_READ);
+		flags |= wflags & FILE_ATTRIBUTE_HIDDEN ? FILE_HIDDEN : 0;
+		flags |= FILE_EXISTS;
+#endif
+		return flags;
 	}
 
 	std::vector<std::shared_ptr<filesystem_object>> directory::get_children() const {
@@ -77,11 +86,13 @@ namespace asmith {
 
 	void directory::hide() {
 		//! \todo Implement
+		throw std::runtime_error("asmith::directory::hide : Failed to hide directory");
 		
 	}
 
 	void directory::show() {
 		//! \todo Implement
+		throw std::runtime_error("asmith::directory::show : Failed to show directory");
 		
 	}
 
