@@ -12,16 +12,29 @@
 //	limitations under the License.
 
 #include "asmith/files/filesystem_object.hpp"
+#include <map>
+#include "asmith/files/file.hpp"
+#include "asmith/files/directory.hpp"
 
 namespace asmith {
+	std::map<std::string,std::shared_ptr<filesystem_object>> FILE_MAP;
+	std::mutex FILE_MAP_LOCK;
+
 	// filesystem_object
 
 	const char* filesystem_object::get_temporary_directory() throw() {
 		return "";
 	}
 
-	std::shared_ptr<filesystem_object> filesystem_object::get_object_reference(const char*) {
-		return false;
+	std::shared_ptr<filesystem_object> filesystem_object::get_object_reference(const std::string& aPath, const bool aDirectory) {
+		FILE_MAP_LOCK.lock();
+		auto i = FILE_MAP.find(aPath);
+		if(i == FILE_MAP.end()) i = FILE_MAP.emplace(aPath, std::shared_ptr<filesystem_object>(
+			aDirectory ? static_cast<filesystem_object*>(new directory(aPath.c_str())) : 
+			static_cast<filesystem_object*>(new file(aPath.c_str()))
+		)).first;
+		FILE_MAP_LOCK.unlock();
+		return i->second;
 	}
 	
 	

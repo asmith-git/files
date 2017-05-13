@@ -20,6 +20,8 @@
 namespace asmith {
 	class directory : public filesystem_object {
 	protected:
+		friend filesystem_object;
+
 		directory();
 		directory(const char* aPath);
 		

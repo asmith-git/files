@@ -17,13 +17,13 @@ namespace asmith {
 	// directory
 
 	std::shared_ptr<directory> directory::get_reference(const char* aPath) {
-		return std::dynamic_pointer_cast<directory>(filesystem_object::get_object_reference(aPath));
+		return std::dynamic_pointer_cast<directory>(filesystem_object::get_object_reference(aPath, true));
 	}
 
 	std::shared_ptr<directory> directory::create_temporary(const char* aName) {
 		std::string path = filesystem_object::get_temporary_directory();
 		path += aName;
-		std::shared_ptr<directory> ref = get_reference(path.c_str());
+		std::shared_ptr<directory> ref = std::dynamic_pointer_cast<directory>(get_object_reference(path, true));
 		if(! ref->exists()) ref->create(FILE_READ | FILE_WRITE | FILE_TEMPORARY);
 		return ref;
 	}

@@ -19,6 +19,8 @@
 namespace asmith {
 	class file : public filesystem_object {
 	protected:
+		friend filesystem_object;
+
 		file();
 		file(const char* aPath);
 		
