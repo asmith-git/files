@@ -91,7 +91,18 @@ namespace asmith {
 	}
 
 	void directory::destroy() {
-		//! \todo Implement
+		if(! exists()) throw std::runtime_error("asmith::directory::destroy : Directory does not exist");
+		std::lock_guard<std::mutex> lock(mLock);
+
+		std::vector<std::shared_ptr<filesystem_object>> children = get_children();
+		for(std::shared_ptr<filesystem_object>& i : children) i->destroy();
+
+#ifdef _WIN32
+		if(! RemoveDirectoryA(mPath.c_str())) throw std::runtime_error("asmith::directory::destroy : Failed to destroy directory");
+		mFlags = get_flags();
+		return;
+#endif
+		throw std::runtime_error("asmith::directory::destroy : Failed to destroy directory");
 		
 	}
 
