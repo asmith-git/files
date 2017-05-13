@@ -42,7 +42,9 @@ namespace asmith {
 	{}
 
 	directory::~directory() {
-		
+		if(is_temporary() && exists()) {
+			destroy();
+		}
 	}
 
 	uint32_t directory::get_flags() const {

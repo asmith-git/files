@@ -20,6 +20,7 @@
 
 namespace asmith {
 	// file
+
 	std::shared_ptr<file> file::get_reference(const char* aPath) {
 		return std::dynamic_pointer_cast<file>(filesystem_object::get_object_reference(aPath, false));
 	}
@@ -41,7 +42,9 @@ namespace asmith {
 	{}
 
 	file::~file() {
-		
+		if(is_temporary() && exists()) {
+			destroy();
+		}
 	}
 
 	uint32_t file::get_flags() const {
@@ -91,7 +94,22 @@ namespace asmith {
 	}
 
 	void file::create(const uint32_t aFlags) {
-		//! \todo Implement
+		if(exists()) throw std::runtime_error("asmith::file::destroy : File already exists");
+		std::lock_guard<std::mutex> lock(mLock);
+#ifdef _WIN32
+		if(CreateFileA(
+			mPath,
+			(aFlags & READABLE ? GENERIC_READ : 0) | (aFlags & WRITABLE ? GENERIC_WRITE : 0),
+			0,
+			NULL,
+			CREATE_ALWAYS,
+			(aFlags & HIDDEN ? FILE_ATTRIBUTE_HIDDEN : FILE_ATTRIBUTE_NORMAL),
+			NULL
+		) == INVALID_HANDLE_VALUE) return false;
+		mFlags = aFlags;
+		if(aFlags & FILE_TEMPORARY) 
+#endif
+		throw std::runtime_error("asmith::file::create : Failed to create file");
 	}
 
 	void file::destroy() {
