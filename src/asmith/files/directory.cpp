@@ -46,6 +46,7 @@ namespace asmith {
 	}
 
 	uint32_t directory::get_flags() const {
+		//! \todo Implement
 		return 0;
 	}
 
@@ -55,26 +56,32 @@ namespace asmith {
 	}
 
 	void directory::hide() {
+		//! \todo Implement
 		
 	}
 
 	void directory::show() {
+		//! \todo Implement
 		
 	}
 
 	void directory::create(const uint32_t aFlags) {
+		//! \todo Implement
 		
 	}
 
 	void directory::destroy() {
+		//! \todo Implement
 		
 	}
 
 	std::shared_ptr<filesystem_object> directory::move(const char* aPath) {
+		//! \todo Implement
 		return nullptr;
 	}
 
 	std::shared_ptr<filesystem_object> directory::copy(const char* aPath) {
+		//! \todo Implement
 		return nullptr;
 	}
 

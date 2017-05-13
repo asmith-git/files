@@ -59,10 +59,12 @@ namespace asmith {
 	}
 	
 	const char* filesystem_object::get_name() const {
+		//! \todo Implement
 		return nullptr;
 	}
 	
 	const char* filesystem_object::get_path() const {
+		//! \todo Implement
 		return nullptr;
 	}
 	

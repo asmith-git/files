@@ -45,10 +45,12 @@ namespace asmith {
 	}
 
 	uint32_t file::get_flags() const {
+		//! \todo Implement
 		return 0;
 	}
 
 	const char* file::get_extension() const {
+		//! \todo Implement
 		return nullptr;
 	}
 
@@ -81,26 +83,28 @@ namespace asmith {
 	}
 
 	void file::hide() {
-		
+		//! \todo Implement
 	}
 
 	void file::show() {
-		
+		//! \todo Implement
 	}
 
 	void file::create(const uint32_t aFlags) {
-		
+		//! \todo Implement
 	}
 
 	void file::destroy() {
-		
+		//! \todo Implement
 	}
 
 	std::shared_ptr<filesystem_object> file::move(const char* aPath) {
+		//! \todo Implement
 		return nullptr;
 	}
 
 	std::shared_ptr<filesystem_object> file::copy(const char* aPath) {
+		//! \todo Implement
 		return nullptr;
 	}
 
