@@ -59,13 +59,14 @@ namespace asmith {
 	}
 	
 	const char* filesystem_object::get_name() const {
-		//! \todo Implement
-		return nullptr;
+		size_t pos = mPath.find_last_of('/');
+		if(pos == std::string::npos) return mPath.c_str();
+		//! \todo Handle directory names
+		return mPath.c_str() + pos;
 	}
 	
 	const char* filesystem_object::get_path() const {
-		//! \todo Implement
-		return nullptr;
+		return mPath.c_str();
 	}
 	
 	bool filesystem_object::exists() const {

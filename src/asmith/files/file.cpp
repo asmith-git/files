@@ -96,10 +96,12 @@ namespace asmith {
 
 	void file::hide() {
 		//! \todo Implement
+		throw std::runtime_error("asmith::file::hide : Failed to hide file");
 	}
 
 	void file::show() {
 		//! \todo Implement
+		throw std::runtime_error("asmith::file::show : Failed to show file");
 	}
 
 	void file::create(const uint32_t aFlags) {
