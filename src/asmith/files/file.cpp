@@ -95,7 +95,14 @@ namespace asmith {
 	}
 
 	void file::destroy() {
-		//! \todo Implement
+		if(! exists()) throw std::runtime_error("asmith::file::destroy : File does not exist");
+		std::lock_guard<std::mutex> lock(mLock);
+#ifdef _WIN32
+		if(! DeleteFileA(mPath.c_str())) throw std::runtime_error("asmith::file::destroy : Failed to destroy file");
+		mFlags = get_flags();
+		return;
+#endif
+		throw std::runtime_error("asmith::file::destroy : Failed to destroy file");
 	}
 
 	std::shared_ptr<filesystem_object> file::move(const char* aPath) {
