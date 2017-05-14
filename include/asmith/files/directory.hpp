@@ -28,6 +28,8 @@ namespace asmith {
 		// Inherited from filesystem_object
 		uint32_t get_flags() const override;
 	public:
+		static std::shared_ptr<directory> get_temporary_directory();
+		static std::shared_ptr<directory> get_current_directory();
 		static std::shared_ptr<directory> get_reference(const char*);
 		~directory();
 		

@@ -21,6 +21,32 @@
 namespace asmith {
 	// directory
 
+	std::shared_ptr<directory> directory::get_temporary_directory() {
+#ifdef _WIN32
+		static char BUFFER[MAX_PATH];
+		static bool ONCE = true;
+		if(ONCE) {
+			ONCE = false;
+			if(GetTempPathA(MAX_PATH, BUFFER) > MAX_PATH) throw("asmith::directory::get_temporary_directory : Failed to locate temporary directory");
+		}
+		return get_reference(BUFFER);
+#endif
+		throw("asmith::directory::get_temporary_directory : Failed to locate temporary directory");
+	}
+
+	std::shared_ptr<directory> directory::get_current_directory() {
+#ifdef _WIN32
+		static char BUFFER[MAX_PATH];
+		static bool ONCE = true;
+		if(ONCE) {
+			ONCE = false;
+			if(GetModuleFileNameA(NULL, BUFFER, MAX_PATH) > MAX_PATH) throw("asmith::directory::get_current_directory : Failed to locate current directory");
+		}
+		return get_reference(BUFFER);
+#endif
+		throw("asmith::directory::get_current_directory : Failed to locate current directory");
+	}
+
 	std::shared_ptr<directory> directory::get_reference(const char* aPath) {
 		return std::dynamic_pointer_cast<directory>(filesystem_object::get_object_reference(aPath, true));
 	}

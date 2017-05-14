@@ -27,19 +27,6 @@ namespace asmith {
 
 	// filesystem_object
 
-	const char* filesystem_object::get_temporary_directory() {
-#ifdef _WIN32
-		static char BUFFER[MAX_PATH];
-		static bool ONCE = true;
-		if(ONCE) {
-			ONCE = false;
-			if(GetTempPathA(MAX_PATH, BUFFER) > MAX_PATH) throw("asmith::filesystem_object::get_temporary_directory : Failed to local temporary directory");
-		}
-		return BUFFER;
-#endif
-		throw("asmith::filesystem_object::get_temporary_directory : Failed to local temporary directory");
-	}
-
 	std::shared_ptr<filesystem_object> filesystem_object::get_object_reference(const std::string& aPath, const bool aDirectory) {
 		FILE_MAP_LOCK.lock();
 		auto i = FILE_MAP.find(aPath);
