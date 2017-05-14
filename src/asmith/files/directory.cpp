@@ -41,6 +41,13 @@ namespace asmith {
 		if(ONCE) {
 			ONCE = false;
 			if(GetModuleFileNameA(NULL, BUFFER, MAX_PATH) > MAX_PATH) throw("asmith::directory::get_current_directory : Failed to locate current directory");
+			char* i = BUFFER;
+			char* j = i;
+			while(*i != '\0') {
+				if(*i == '\\') j = i + 1;
+				++i;
+			}
+			*j = '\0';
 		}
 		return get_reference(BUFFER);
 #endif
