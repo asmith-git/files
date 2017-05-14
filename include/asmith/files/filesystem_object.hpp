@@ -19,6 +19,10 @@
 #include <memory>
 
 namespace asmith {
+	enum : char {
+		FILE_SEPERATOR = '\\'
+	};
+
 	enum {
 		FILE_EXISTS		= 1 << 0,
 		FILE_HIDDEN		= 1 << 1,

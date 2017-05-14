@@ -60,7 +60,7 @@ namespace asmith {
 	}
 	
 	const char* filesystem_object::get_name() const throw() {
-		size_t pos = mPath.find_last_of('/');
+		size_t pos = mPath.find_last_of(FILE_SEPERATOR);
 		if(pos == std::string::npos) return mPath.c_str();
 		//! \todo Handle directory names
 		return mPath.c_str() + pos + 1;
@@ -71,7 +71,7 @@ namespace asmith {
 	}
 
 	std::shared_ptr<filesystem_object> filesystem_object::get_parent() const {
-		size_t pos = mPath.find_last_of('/');
+		size_t pos = mPath.find_last_of(FILE_SEPERATOR);
 		if (pos == std::string::npos) throw("asmith::filesystem_object::get_parent : Directory is root");
 		//! \todo Handle directory names
 		return directory::get_reference(mPath.substr(0, pos).c_str());

@@ -44,7 +44,7 @@ namespace asmith {
 			char* i = BUFFER;
 			char* j = i;
 			while(*i != '\0') {
-				if(*i == '\\') j = i + 1;
+				if(*i == FILE_SEPERATOR) j = i + 1;
 				++i;
 			}
 			*j = '\0';
