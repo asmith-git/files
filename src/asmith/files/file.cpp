@@ -36,7 +36,8 @@ namespace asmith {
 	}
 
 	file::~file() {
-		if(is_temporary() && exists()) {
+		enum { DESTROY_FLAG = FILE_EXISTS | FILE_TEMPORARY};
+		if((mFlags & DESTROY_FLAG) == DESTROY_FLAG) {
 			destroy();
 		}
 	}

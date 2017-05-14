@@ -24,7 +24,7 @@ namespace asmith {
 		FILE_HIDDEN		= 1 << 1,
 		FILE_READ		= 1 << 2,
 		FILE_WRITE		= 1 << 3,
-		FILE_TEMPORARY	= 1 << 3
+		FILE_TEMPORARY	= 1 << 4
 	};
 		
 	class filesystem_object : public std::enable_shared_from_this<filesystem_object> {
