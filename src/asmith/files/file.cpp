@@ -55,7 +55,7 @@ namespace asmith {
 		return flags;
 	}
 
-	const char* file::get_extension() const {
+	const char* file::get_extension() const throw() {
 		const size_t pos = mPath.find_last_of('.');
 		if(pos == std::string::npos) return "";
 		return mPath.c_str() + pos + 1;
@@ -149,11 +149,11 @@ namespace asmith {
 		throw std::runtime_error("asmith::file::copy : Failed to copy file");
 	}
 
-	bool file::is_file() const {
+	bool file::is_file() const throw() {
 		return true;
 	}
 
-	bool file::is_directory() const {
+	bool file::is_directory() const throw() {
 		return false;
 	}
 

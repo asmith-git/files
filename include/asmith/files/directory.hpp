@@ -41,8 +41,8 @@ namespace asmith {
 		void destroy() override;
 		std::shared_ptr<filesystem_object> move(const char* aPath) override;
 		std::shared_ptr<filesystem_object> copy(const char* aPath) override;
-		bool is_directory() const override;
-		bool is_file() const override;
+		bool is_directory() const throw() override;
+		bool is_file() const throw() override;
 	};
 }
 #endif

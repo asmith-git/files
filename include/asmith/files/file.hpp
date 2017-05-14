@@ -31,7 +31,7 @@ namespace asmith {
 		
 		~file();
 		
-		const char* get_extension() const;
+		const char* get_extension() const throw();
 		size_t size() const;
 		
 		// Inherited from filesystem_object
@@ -42,8 +42,8 @@ namespace asmith {
 		void destroy() override;
 		std::shared_ptr<filesystem_object> move(const char* aPath) override;
 		std::shared_ptr<filesystem_object> copy(const char* aPath) override;
-		bool is_file() const override;
-		bool is_directory() const override;
+		bool is_file() const throw() override;
+		bool is_directory() const throw() override;
 	};
 }
 #endif

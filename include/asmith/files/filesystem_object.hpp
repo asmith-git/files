@@ -48,19 +48,19 @@ namespace asmith {
 	public:
 		virtual ~filesystem_object();
 		
-		operator bool() const;
+		operator bool() const throw();
 		
-		const char* get_name() const;
-		const char* get_path() const;
+		const char* get_name() const throw();
+		const char* get_path() const throw();
 		std::shared_ptr<filesystem_object> get_parent() const;
 		
-		bool exists() const;
-		bool is_hidden() const;
-		bool is_temporary() const;
-		bool is_readable() const;
-		bool is_writeable() const;
-		bool is_read_only() const;
-		bool is_write_only() const;
+		bool exists() const throw();
+		bool is_hidden() const throw();
+		bool is_temporary() const throw();
+		bool is_readable() const throw();
+		bool is_writeable() const throw();
+		bool is_read_only() const throw();
+		bool is_write_only() const throw();
 		
 		virtual void hide() = 0;
 		virtual void show() = 0;
@@ -68,8 +68,8 @@ namespace asmith {
 		virtual void destroy() = 0;
 		virtual std::shared_ptr<filesystem_object> move(const char* aPath) = 0;
 		virtual std::shared_ptr<filesystem_object> copy(const char* aPath) = 0;
-		virtual bool is_file() const = 0;
-		virtual bool is_directory() const = 0;
+		virtual bool is_file() const throw() = 0;
+		virtual bool is_directory() const throw() = 0;
 	};
 }
 #endif

@@ -126,11 +126,11 @@ namespace asmith {
 		throw std::runtime_error("asmith::directory::copy : Failed to copy directory");
 	}
 
-	bool directory::is_directory() const {
+	bool directory::is_directory() const throw() {
 		return true;
 	}
 
-	bool directory::is_file() const {
+	bool directory::is_file() const throw() {
 		return false;
 	}
 

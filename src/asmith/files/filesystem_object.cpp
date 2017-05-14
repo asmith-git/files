@@ -68,18 +68,18 @@ namespace asmith {
 		
 	}
 	
-	filesystem_object::operator bool() const {
+	filesystem_object::operator bool() const throw() {
 		return exists();
 	}
 	
-	const char* filesystem_object::get_name() const {
+	const char* filesystem_object::get_name() const throw() {
 		size_t pos = mPath.find_last_of('/');
 		if(pos == std::string::npos) return mPath.c_str();
 		//! \todo Handle directory names
 		return mPath.c_str() + pos + 1;
 	}
 	
-	const char* filesystem_object::get_path() const {
+	const char* filesystem_object::get_path() const throw() {
 		return mPath.c_str();
 	}
 
@@ -90,31 +90,31 @@ namespace asmith {
 		return directory::get_reference(mPath.substr(0, pos).c_str());
 	}
 	
-	bool filesystem_object::exists() const {
+	bool filesystem_object::exists() const throw() {
 		return mFlags & FILE_EXISTS;
 	}
 	
-	bool filesystem_object::is_hidden() const {
+	bool filesystem_object::is_hidden() const throw() {
 		return mFlags & FILE_HIDDEN;;
 	}
 	
-	bool filesystem_object::is_temporary() const {
+	bool filesystem_object::is_temporary() const throw() {
 		return mFlags & FILE_TEMPORARY;
 	}
 	
-	bool filesystem_object::is_readable() const {
+	bool filesystem_object::is_readable() const throw() {
 		return mFlags & FILE_READ;
 	}
 	
-	bool filesystem_object::is_writeable() const {
+	bool filesystem_object::is_writeable() const throw() {
 		return mFlags & FILE_WRITE;
 	}
 	
-	bool filesystem_object::is_read_only() const {
+	bool filesystem_object::is_read_only() const throw() {
 		return is_readable() && ! is_writeable();
 	}
 	
-	bool filesystem_object::is_write_only() const {
+	bool filesystem_object::is_write_only() const throw() {
 		return is_writeable() && ! is_readable();;
 	}
 }
