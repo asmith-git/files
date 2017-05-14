@@ -16,14 +16,28 @@
 #include "asmith/files/file.hpp"
 #include "asmith/files/directory.hpp"
 
+#ifdef _WIN32
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+#endif
+
 namespace asmith {
 	std::map<std::string,std::shared_ptr<filesystem_object>> FILE_MAP;
 	std::mutex FILE_MAP_LOCK;
 
 	// filesystem_object
 
-	const char* filesystem_object::get_temporary_directory() throw() {
-		return "";
+	const char* filesystem_object::get_temporary_directory() {
+#ifdef _WIN32
+		static char BUFFER[MAX_PATH];
+		static bool ONCE = true;
+		if(ONCE) {
+			ONCE = false;
+			if(GetTempPathA(MAX_PATH, BUFFER) > MAX_PATH) throw("asmith::filesystem_object::get_temporary_directory : Failed to local temporary directory");
+		}
+		return BUFFER;
+#endif
+		throw("asmith::filesystem_object::get_temporary_directory : Failed to local temporary directory");
 	}
 
 	std::shared_ptr<filesystem_object> filesystem_object::get_object_reference(const std::string& aPath, const bool aDirectory) {

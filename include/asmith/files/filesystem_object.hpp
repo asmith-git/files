@@ -38,7 +38,7 @@ namespace asmith {
 		mutable std::mutex mLock;
 		uint32_t mFlags;
 	protected:
-		static const char* get_temporary_directory() throw();
+		static const char* get_temporary_directory();
 		static std::shared_ptr<filesystem_object> get_object_reference(const std::string&, const bool);
 		
 		filesystem_object();
