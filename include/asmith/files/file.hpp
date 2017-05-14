@@ -28,7 +28,6 @@ namespace asmith {
 		uint32_t get_flags() const override;
 	public:
 		static std::shared_ptr<file> get_reference(const char*);
-		static std::shared_ptr<file> create_temporary(const char*);
 		
 		~file();
 		

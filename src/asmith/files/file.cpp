@@ -25,14 +25,6 @@ namespace asmith {
 		return std::dynamic_pointer_cast<file>(filesystem_object::get_object_reference(aPath, false));
 	}
 
-	std::shared_ptr<file> file::create_temporary(const char* aName) {
-		std::string path = filesystem_object::get_temporary_directory();
-		path += aName;
-		std::shared_ptr<file> ref = std::dynamic_pointer_cast<file>(get_object_reference(path, false));
-		if(! ref->exists()) ref->create(FILE_READ | FILE_WRITE | FILE_TEMPORARY);
-		return ref;
-	}
-
 	file::file() :
 		filesystem_object()
 	{}
