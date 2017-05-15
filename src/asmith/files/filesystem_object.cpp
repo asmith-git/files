@@ -22,20 +22,25 @@
 #endif
 
 namespace asmith {
-	std::map<std::string,std::shared_ptr<filesystem_object>> FILE_MAP;
+	std::map<std::string,std::weak_ptr<filesystem_object>> FILE_MAP;
 	std::mutex FILE_MAP_LOCK;
 
 	// filesystem_object
 
 	std::shared_ptr<filesystem_object> filesystem_object::get_object_reference(const std::string& aPath, const bool aDirectory) {
+		std::shared_ptr<filesystem_object> tmp;
 		FILE_MAP_LOCK.lock();
-		auto i = FILE_MAP.find(aPath);
-		if(i == FILE_MAP.end()) i = FILE_MAP.emplace(aPath, std::shared_ptr<filesystem_object>(
-			aDirectory ? static_cast<filesystem_object*>(new directory(aPath.c_str())) : 
-			static_cast<filesystem_object*>(new file(aPath.c_str()))
-		)).first;
+		const auto i = FILE_MAP.find(aPath);
+		if(i != FILE_MAP.end()) tmp = i->second.lock();
+		if(! tmp) {
+			tmp = std::shared_ptr<filesystem_object>(
+				aDirectory ? static_cast<filesystem_object*>(new directory(aPath.c_str())) :
+				static_cast<filesystem_object*>(new file(aPath.c_str()))
+			);
+			FILE_MAP.emplace(aPath, tmp);
+		}
 		FILE_MAP_LOCK.unlock();
-		return i->second;
+		return tmp;
 	}
 	
 	
