@@ -101,21 +101,16 @@ namespace asmith {
 
 	std::vector<std::shared_ptr<filesystem_object>> directory::get_children() const {
 		std::vector<std::shared_ptr<filesystem_object>> children;
-		if (!exists()) throw std::runtime_error("asmith::directory::get_children : Directory does not exist");
+		if(! exists()) throw std::runtime_error("asmith::directory::get_children : Directory does not exist");
 #ifdef _WIN32
 		WIN32_FIND_DATAA ffd;
-		CHAR szDir[MAX_PATH];
-		HANDLE handle = INVALID_HANDLE_VALUE;
-
-		//StringCchCopyA(szDir, MAX_PATH, mPath);
-		//StringCchCatA(szDir, MAX_PATH, TEXT("\\*"));
-
-		handle = FindFirstFileA(szDir, &ffd);
+		HANDLE handle = FindFirstFileA((mPath + "*").c_str(), &ffd);
+		uint32_t c = 0;
 		if(handle != INVALID_HANDLE_VALUE) {
 			do {
-				children.push_back(get_reference(ffd.cFileName));
+				if(c > 1) children.push_back(get_reference(ffd.cFileName));
+				++c;
 			}while(FindNextFileA(handle, &ffd) != 0);
-
 		}
 		FindClose(handle);
 #endif
