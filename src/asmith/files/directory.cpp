@@ -122,8 +122,8 @@ namespace asmith {
 				if(c > 1) {
 					const std::string path = mPath + ffd.cFileName;
 					children.push_back(filesystem_object::get_object_reference(
-						mPath.c_str(),
-						GetFileAttributesA(mPath.c_str()) & FILE_ATTRIBUTE_DIRECTORY
+						path.c_str(),
+						GetFileAttributesA(path.c_str()) & FILE_ATTRIBUTE_DIRECTORY
 					));
 				}
 				++c;
