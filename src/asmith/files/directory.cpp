@@ -139,7 +139,8 @@ namespace asmith {
 		std::lock_guard<std::mutex> lock(mLock);
 #ifdef _WIN32
 		if(! CreateDirectoryA(mPath.c_str(), NULL)) throw std::runtime_error("asmith::directory::create : Failed to create directory");
-		mFlags = aFlags;
+		mFlags = aFlags | FILE_EXISTS;
+		return;
 #endif
 		throw std::runtime_error("asmith::directory::create : Failed to create directory");
 	}

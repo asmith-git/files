@@ -113,7 +113,7 @@ namespace asmith {
 			(aFlags & FILE_HIDDEN ? FILE_ATTRIBUTE_HIDDEN : FILE_ATTRIBUTE_NORMAL),
 			NULL
 		) == INVALID_HANDLE_VALUE) throw std::runtime_error("asmith::file::create : Failed to create file");
-		mFlags = aFlags;
+		mFlags = aFlags | FILE_EXISTS;
 		return;
 #endif
 		throw std::runtime_error("asmith::file::create : Failed to create file");
