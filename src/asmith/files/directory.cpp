@@ -95,6 +95,19 @@ namespace asmith {
 		return flags;
 	}
 
+	std::shared_ptr<filesystem_object> directory::get_child(const char* aPath) const {
+		const std::string path = mPath + aPath;
+		bool isDirectory = false;
+#ifdef _WIN32
+		const DWORD flags = GetFileAttributesA(path.c_str());
+		if(flags != INVALID_FILE_ATTRIBUTES) return filesystem_object::get_object_reference(
+			path.c_str(), 
+			flags & FILE_ATTRIBUTE_DIRECTORY
+		);
+#endif
+		return std::shared_ptr<filesystem_object>();
+	}
+
 	std::shared_ptr<file> directory::get_file(const char* aPath) const {
 		const std::string path = mPath + aPath;
 		return file::get_reference(path.c_str());

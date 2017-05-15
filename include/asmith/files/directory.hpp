@@ -34,6 +34,7 @@ namespace asmith {
 		static std::shared_ptr<directory> get_reference(const char*);
 		~directory();
 
+		std::shared_ptr<filesystem_object> get_child(const char*) const;
 		std::shared_ptr<file> get_file(const char*) const;
 		std::shared_ptr<directory> get_directory(const char*) const;
 		std::vector<std::shared_ptr<filesystem_object>> get_children() const ;
