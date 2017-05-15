@@ -104,7 +104,7 @@ namespace asmith {
 		if(exists()) throw std::runtime_error("asmith::file::destroy : File already exists");
 		std::lock_guard<std::mutex> lock(mLock);
 #ifdef _WIN32
-		if(CreateFileA(
+		HANDLE handle = CreateFileA(
 			mPath.c_str(),
 			(aFlags & FILE_READ ? GENERIC_READ : 0) | (aFlags & FILE_WRITE ? GENERIC_WRITE : 0),
 			0,
@@ -112,7 +112,9 @@ namespace asmith {
 			CREATE_ALWAYS,
 			(aFlags & FILE_HIDDEN ? FILE_ATTRIBUTE_HIDDEN : FILE_ATTRIBUTE_NORMAL),
 			NULL
-		) == INVALID_HANDLE_VALUE) throw std::runtime_error("asmith::file::create : Failed to create file");
+		);
+		if(handle == INVALID_HANDLE_VALUE) throw std::runtime_error("asmith::file::create : Failed to create file : " + std::to_string(GetLastError()));
+		CloseHandle(handle);
 		mFlags = aFlags | FILE_EXISTS;
 		return;
 #endif
@@ -145,7 +147,7 @@ namespace asmith {
 		if(! exists()) throw std::runtime_error("asmith::file::copy : File does not exist");
 		std::lock_guard<std::mutex> lock(mLock);
 #ifdef _WIN32
-		if(! CopyFileA(mPath.c_str(), aPath, FALSE)) throw std::runtime_error("asmith::file::copy : Failed to copy file");
+		if(! CopyFileA(mPath.c_str(), aPath, FALSE)) throw std::runtime_error("asmith::file::copy : Failed to copy file : " + std::to_string(GetLastError()));
 		return get_reference(aPath);
 #endif
 		throw std::runtime_error("asmith::file::copy : Failed to copy file");
