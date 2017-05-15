@@ -16,6 +16,7 @@
 
 #include<vector>
 #include "filesystem_object.hpp"
+#include "file.hpp"
 
 namespace asmith {
 	class directory : public filesystem_object {

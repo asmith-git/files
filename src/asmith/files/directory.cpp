@@ -89,6 +89,16 @@ namespace asmith {
 		return flags;
 	}
 
+	std::shared_ptr<file> directory::get_file(const char* aPath) const {
+		const std::string path = mPath + aPath;
+		return file::get_reference(path.c_str());
+	}
+
+	std::shared_ptr<directory> directory::get_directory(const char* aPath) const {
+		const std::string path = mPath + aPath;
+		return directory::get_reference(path.c_str());
+	}
+
 	std::vector<std::shared_ptr<filesystem_object>> directory::get_children() const {
 		std::vector<std::shared_ptr<filesystem_object>> children;
 		if (!exists()) throw std::runtime_error("asmith::directory::get_children : Directory does not exist");
