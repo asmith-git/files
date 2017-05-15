@@ -50,5 +50,17 @@ namespace asmith {
 		bool is_directory() const throw() override;
 		bool is_file() const throw() override;
 	};
+
+#ifdef ASMITH_SERIAL_VALUE_HPP
+	namespace serial {
+		template<>
+		struct serialiser<directory> {
+			typedef const std::shared_ptr<directory>& input_t;
+			typedef std::shared_ptr<file> output_t;
+			static inline value serialise(input_t aValue) throw() { return value(aValue->get_path()); }
+			static inline output_t deserialise(const value& aValue) throw() { return directory::get_reference(aValue.get_string().c_ptr()); }
+		};
+	}
+#endif
 }
 #endif
