@@ -24,7 +24,7 @@ namespace asmith {
 		DWORD flags = 0;
 		if((aFlags & FILE_READ) && ! (aFlags & FILE_WRITE)) flags |= FILE_ATTRIBUTE_READONLY;
 		if(aFlags & FILE_TEMPORARY) flags |= FILE_ATTRIBUTE_TEMPORARY;
-		if(aFlags & FILE_TEMPORARY) flags |= FILE_ATTRIBUTE_HIDDEN;
+		if(aFlags & FILE_HIDDEN) flags |= FILE_ATTRIBUTE_HIDDEN;
 		return flags == 0 ? FILE_ATTRIBUTE_NORMAL : flags;
 	}
 #endif
