@@ -19,6 +19,12 @@
 #endif
 
 namespace asmith {
+	std::string standardise_directory_path(const char* aPath) {
+		std::string tmp = aPath;
+		if(tmp.back() != FILE_SEPERATOR) tmp += FILE_SEPERATOR;
+		return tmp;
+	}
+
 	// directory
 
 	std::shared_ptr<directory> directory::get_temporary_directory() {
@@ -63,7 +69,7 @@ namespace asmith {
 	{}
 
 	directory::directory(const char* aPath) :
-		filesystem_object(aPath)
+		filesystem_object(standardise_directory_path(aPath).c_str())
 	{
 		mFlags = get_flags();
 	}
