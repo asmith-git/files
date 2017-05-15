@@ -198,8 +198,18 @@ namespace asmith {
 	}
 
 	std::shared_ptr<filesystem_object> directory::copy(const char* aPath) {
-		//! \todo Implement
-		throw std::runtime_error("asmith::directory::copy : Failed to copy directory");
+		if(! exists()) throw std::runtime_error("asmith::directory::copy : Directory does not exist");
+		std::shared_ptr<directory> destination = directory::get_reference(aPath);
+		if(! destination->exists()) destination->create(FILE_READ | FILE_WRITE);
+
+		std::vector<std::shared_ptr<filesystem_object>> children = get_children();
+		for(std::shared_ptr<filesystem_object>& i : children) {
+			std::string path = aPath;
+			path += i->get_name();
+			i->copy(path.c_str());
+		}
+
+		return destination;
 	}
 
 	bool directory::is_directory() const throw() {
