@@ -187,7 +187,13 @@ namespace asmith {
 	}
 
 	std::shared_ptr<filesystem_object> directory::move(const char* aPath) {
-		//! \todo Implement
+		if(! exists()) throw std::runtime_error("asmith::directory::move : Directory does not exist");
+		std::lock_guard<std::mutex> lock(mLock);
+#ifdef _WIN32
+		if(! MoveFileExA(mPath.c_str(), aPath, MOVEFILE_REPLACE_EXISTING)) throw std::runtime_error("asmith::directory::move : Failed to move directory : " + std::to_string(GetLastError()));
+		mFlags = get_flags();
+		return get_reference(aPath);
+#endif
 		throw std::runtime_error("asmith::directory::move : Failed to move directory");
 	}
 
