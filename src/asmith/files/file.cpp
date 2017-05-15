@@ -114,6 +114,7 @@ namespace asmith {
 			NULL
 		) == INVALID_HANDLE_VALUE) throw std::runtime_error("asmith::file::create : Failed to create file");
 		mFlags = aFlags;
+		return;
 #endif
 		throw std::runtime_error("asmith::file::create : Failed to create file");
 	}
