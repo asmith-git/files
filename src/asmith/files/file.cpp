@@ -19,6 +19,16 @@
 #endif
 
 namespace asmith {
+#ifdef _WIN32
+	DWORD generate_file_attributes(const uint32_t aFlags) {
+		DWORD flags = 0;
+		if((aFlags & FILE_READ) && ! (aFlags & FILE_WRITE)) flags |= FILE_ATTRIBUTE_READONLY;
+		if(aFlags & FILE_TEMPORARY) flags |= FILE_ATTRIBUTE_TEMPORARY;
+		if(aFlags & FILE_TEMPORARY) flags |= FILE_ATTRIBUTE_HIDDEN;
+		return flags == 0 ? FILE_ATTRIBUTE_NORMAL : flags;
+	}
+#endif
+
 	// file
 
 	std::shared_ptr<file> file::get_reference(const char* aPath) {
@@ -91,12 +101,22 @@ namespace asmith {
 	}
 
 	void file::hide() {
-		//! \todo Implement
+		if(is_hidden()) throw std::runtime_error("asmith::file::hide : File is already hidden");
+#ifdef _WIN32
+		mFlags |= FILE_HIDDEN;
+		if(! SetFileAttributesA(mPath.c_str(), generate_file_attributes(mFlags))) throw std::runtime_error("asmith::file::hide : Failed to set file attributes : " + std::to_string(GetLastError()));
+		return;
+#endif
 		throw std::runtime_error("asmith::file::hide : Failed to hide file");
 	}
 
 	void file::show() {
-		//! \todo Implement
+		if(! is_hidden()) throw std::runtime_error("asmith::file::show : File is not hidden");
+#ifdef _WIN32
+		mFlags = mFlags & (~FILE_HIDDEN);
+		if(! SetFileAttributesA(mPath.c_str(), generate_file_attributes(mFlags))) throw std::runtime_error("asmith::file::show : Failed to set file attributes : " + std::to_string(GetLastError()));
+		return;
+#endif
 		throw std::runtime_error("asmith::file::show : Failed to show file");
 	}
 
@@ -110,7 +130,7 @@ namespace asmith {
 			0,
 			NULL,
 			CREATE_ALWAYS,
-			(aFlags & FILE_HIDDEN ? FILE_ATTRIBUTE_HIDDEN : FILE_ATTRIBUTE_NORMAL),
+			generate_file_attributes(mFlags),
 			NULL
 		);
 		if(handle == INVALID_HANDLE_VALUE) throw std::runtime_error("asmith::file::create : Failed to create file : " + std::to_string(GetLastError()));
