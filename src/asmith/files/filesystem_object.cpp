@@ -27,6 +27,13 @@ namespace asmith {
 
 	// filesystem_object
 
+	size_t filesystem_object::max_path_length() throw() {
+#ifdef _WIN32
+		return MAX_PATH;
+#endif
+		return 0;
+	}
+
 	std::shared_ptr<filesystem_object> filesystem_object::get_object_reference(const std::string& aPath, const bool aDirectory) {
 		std::shared_ptr<filesystem_object> tmp;
 		FILE_MAP_LOCK.lock();

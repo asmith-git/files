@@ -49,6 +49,8 @@ namespace asmith {
 		
 		virtual uint32_t get_flags() const = 0;
 	public:
+		static size_t max_path_length() throw();
+
 		virtual ~filesystem_object();
 		
 		operator bool() const throw();
