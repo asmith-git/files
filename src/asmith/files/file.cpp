@@ -136,7 +136,7 @@ namespace asmith {
 		if(! exists()) throw std::runtime_error("asmith::file::move : File does not exist");
 		std::lock_guard<std::mutex> lock(mLock);
 #ifdef _WIN32
-		if(! MoveFileA(mPath.c_str(), aPath)) throw std::runtime_error("asmith::file::move : Failed to move file");
+		if(! MoveFileA(mPath.c_str(), aPath)) throw std::runtime_error("asmith::file::move : Failed to move file : " + std::to_string(GetLastError()));
 		mFlags = get_flags();
 		return get_reference(aPath);
 #endif

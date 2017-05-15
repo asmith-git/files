@@ -138,7 +138,7 @@ namespace asmith {
 		if(exists()) throw std::runtime_error("asmith::directory::destroy : Directory already exists");
 		std::lock_guard<std::mutex> lock(mLock);
 #ifdef _WIN32
-		if(! CreateDirectoryA(mPath.c_str(), NULL)) throw std::runtime_error("asmith::directory::create : Failed to create directory");
+		if(! CreateDirectoryA(mPath.c_str(), NULL)) throw std::runtime_error("asmith::directory::create : Failed to create directory : " + std::to_string(GetLastError()));
 		mFlags = aFlags | FILE_EXISTS;
 		return;
 #endif
@@ -153,7 +153,7 @@ namespace asmith {
 		for(std::shared_ptr<filesystem_object>& i : children) i->destroy();
 
 #ifdef _WIN32
-		if(! RemoveDirectoryA(mPath.c_str())) throw std::runtime_error("asmith::directory::destroy : Failed to destroy directory");
+		if(! RemoveDirectoryA(mPath.c_str())) throw std::runtime_error("asmith::directory::destroy : Failed to destroy directory : " + std::to_string(GetLastError()));
 		mFlags = 0;
 		return;
 #endif
