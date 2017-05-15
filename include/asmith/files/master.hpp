@@ -17,6 +17,7 @@
 #include "filesystem_object.hpp"
 #include "file.hpp"
 #include "directory.hpp"
+#include "file_wrapper.hpp"
 
 /*! 
 	\mainpage C++ File Management Library
