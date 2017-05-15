@@ -104,7 +104,12 @@ namespace asmith {
 		if(! exists()) throw std::runtime_error("asmith::directory::get_children : Directory does not exist");
 #ifdef _WIN32
 		WIN32_FIND_DATAA ffd;
-		HANDLE handle = FindFirstFileA((mPath + "*").c_str(), &ffd);
+		const size_t size = mPath.size();
+		char path[MAX_PATH];
+		memcpy(path, mPath.c_str(), size);
+		path[size] = '*';
+		path[size + 1] = '\0';
+		HANDLE handle = FindFirstFileA(path, &ffd);
 		uint32_t c = 0;
 		if(handle != INVALID_HANDLE_VALUE) {
 			do {
