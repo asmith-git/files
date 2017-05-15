@@ -119,7 +119,13 @@ namespace asmith {
 		uint32_t c = 0;
 		if(handle != INVALID_HANDLE_VALUE) {
 			do {
-				if(c > 1) children.push_back(get_reference(ffd.cFileName));
+				if(c > 1) {
+					const std::string path = mPath + ffd.cFileName;
+					children.push_back(filesystem_object::get_object_reference(
+						mPath.c_str(),
+						GetFileAttributesA(mPath.c_str()) & FILE_ATTRIBUTE_DIRECTORY
+					));
+				}
 				++c;
 			}while(FindNextFileA(handle, &ffd) != 0);
 		}
